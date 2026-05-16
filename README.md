@@ -13,8 +13,8 @@ At least a large part of this script was... technically written by AI? Initially
 ## Usage guide
 1. Create a new directory to hold all of the files for the disc project.
 2. Create a directory inside that directory named 'in'. Transfer all of your audio files to that directory.
-3. In the main project directory, add the 'vibricue.py' file.
-4. Run the 'vibricue.py' script.
+3. Retrieve the 'vibricue' executable from the latest release and put it in your project folder.
+4. Run the 'vibricue' executable.
 5. Bob's your uncle, Jack's your auntie, use the .cue file in an emulator and have fun.
 ## Specifications
 Currently, what this script will do is it will check if the out folder already exists and has .wav files in it. If it doesn't it will check if the in folder exists and has files in it. If it does, it will normalise those files with EBU R 128 normalisation at a loudness target of -18 LUFS and a loudness range of 12, and turn them into CD quality WAV files. It will then use FFmpeg concatenate to turn them into a single WAV file with two second pregaps, in alphabetical filename order. Lastly, it will use the lengths of those converted WAV files to generate a cue file for the final WAV file.
