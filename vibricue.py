@@ -78,6 +78,16 @@ def secToCueTime(seconds):
     ff = totalFrames % 75
     return f"{mm:02}:{ss:02}:{ff:02}"
 
+# Generate the two second silence.
+subprocess.run([
+    "ffmpeg",
+    "-f", "lavfi",
+    "-i", "anullsrc=r=44100:cl=stereo",
+    "-t", "2",
+    "-c:a", "pcm_s16le",
+    "silence_2s.wav"
+    ], check=True)
+
 # Generate a concat.txt file containing the paths of the audio files, with two second pregaps.
 with open("concat.txt", "w") as concat:
     for i, track in enumerate(tracks):

@@ -13,7 +13,7 @@ At least a large part of this script was... technically written by AI? Initially
 ## Usage guide
 1. Create a new directory to hold all of the files for the disc project.
 2. Create a directory inside that directory named 'in'. Transfer all of your audio files to that directory.
-3. In the main project directory, add the 'vibricue.py' and 'silence_2s.wav' files.
+3. In the main project directory, add the 'vibricue.py' file.
 4. Run the 'vibricue.py' script.
 5. Bob's your uncle, Jack's your auntie, use the .cue file in an emulator and have fun.
 ## Specifications
