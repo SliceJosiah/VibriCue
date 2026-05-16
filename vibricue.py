@@ -10,9 +10,11 @@
 import subprocess
 from pathlib import Path
 
+# Define the out and in folders.
 outFolder = Path("out")
 inFolder = Path("in")
 
+# Check the status of the out folder and in folder.
 if not outFolder.exists():
     if inFolder.exists():
         if any(inFolder.iterdir()):
@@ -28,6 +30,7 @@ if not outFolder.exists():
 else:
     print("\nOut folder exists.", end=" ")
 
+# If there's nothing in the out folder but there are files in the in folder, normalise the files in the in folder, convert them to CD quality WAV, and put them in the out folder.
 if not any(outFolder.glob("*.wav")):
     if not any(inFolder.iterdir()):
         raise Exception("\nBoth the out and in folders are empty.\n")
@@ -49,8 +52,10 @@ if not any(outFolder.glob("*.wav")):
     "-of", "out"
     ], check=True)
 
+# Put the tracks in an alphabetical list.
 tracks = sorted(Path("out").glob("*.wav"))
 
+# This function retrieves the duration of the track.
 def getDuration(fileName):
     result = subprocess.run(
             [
@@ -65,6 +70,7 @@ def getDuration(fileName):
         )
     return float(result.stdout.strip())
 
+# This function converts a duration to mm:ss:ff as required by a cue sheet.
 def secToCueTime(seconds):
     totalFrames = int(round(seconds * 75))
     mm = totalFrames // (75 * 60)
@@ -72,13 +78,16 @@ def secToCueTime(seconds):
     ff = totalFrames % 75
     return f"{mm:02}:{ss:02}:{ff:02}"
 
+# Generate a concat.txt file containing the paths of the audio files, with two second pregaps.
 with open("concat.txt", "w") as concat:
     for i, track in enumerate(tracks):
+        # If this is the last track, only write the track. Otherwise, write the track along with two seconds of silence.
         if i == len(tracks) - 1:
             concat.write(f"file '{track}'")
         else:
             concat.write(f"file '{track}'\nfile 'silence_2s.wav'\n")
 
+# Run FFmpeg concat with the concat.txt file and create a new file called compmix.wav.
 subprocess.run([
     "ffmpeg",
     "-f", "concat",
@@ -88,19 +97,25 @@ subprocess.run([
     "compmix.wav"
     ], check=True)
 
+# This variable is a time counter for the number of seconds which have passed in the WAV file, for the cue sheet index.
 currentTime = 0
 
+# Generate the cue sheet.
 with open("mix.cue", "w") as cue:
+    # Specify a placeholder title and the location of the WAV file.
     cue.write(f'TITLE "PlaceHolderName"\n')
     cue.write(f'FILE "compmix.wav" WAVE\n')
-
+    
+    # For each track, starting from 1.
     for i, track in enumerate(tracks, start=1):
+        # Specify the track with the track number.
         cue.write(f"    TRACK {i:02} AUDIO\n")
+        # If we are not on the first track, print the 00 and 01 indexes with a two second pregap. Otherwise, just print the 01 index as 00:00:00.
         if i != 1:
             cue.write(f"        INDEX 00 {secToCueTime(currentTime)}\n")
             currentTime += 2
             cue.write(f"        INDEX 01 {secToCueTime(currentTime)}\n")
         else:
             cue.write(f"        INDEX 01 00:00:00\n")
-        duration = getDuration(track)
-        currentTime += duration
+        duration = getDuration(track)   # Retrieve the duration of the current track.
+        currentTime += duration         # Add it to the current time so we can get the start time of the next track.
