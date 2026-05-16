@@ -7,7 +7,6 @@ This script is currently only designed for use on Linux. It currently uses a mkd
 
 At least a large part of this script was... technically written by AI? Initially, I asked ChatGPT how I would create a .cue file for all of these songs in a single WAV file expecting it to name a piece of software but instead it wrote me a Python script. At the time, I wasn't familiar with Python at all but I had been taught C# and I thought it would be a good idea to learn to automate it myself. Instead of just copy-pasting that code, I went through each line and made sure I knew what they were doing before adding them to my own project, making alterations and developing the WAV generation functions of the script based on what I learnt from that. I feel I'm comfortable enough with Python now so further updates should not contain AI-generated code.
 ## Dependencies
-* Python
 * FFmpeg
 * [ffmpeg-nomalize](https://github.com/slhck/ffmpeg-normalize)
 ## Usage guide
