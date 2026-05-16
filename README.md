@@ -7,8 +7,8 @@ This script is currently only designed for use on Linux. It currently uses a mkd
 
 At least a large part of this script was... technically written by AI? Initially, I asked ChatGPT how I would create a .cue file for all of these songs in a single WAV file expecting it to name a piece of software but instead it wrote me a Python script. At the time, I wasn't familiar with Python at all but I had been taught C# and I thought it would be a good idea to learn to automate it myself. Instead of just copy-pasting that code, I went through each line and made sure I knew what they were doing before adding them to my own project, making alterations and developing the WAV generation functions of the script based on what I learnt from that. I feel I'm comfortable enough with Python now so further updates should not contain AI-generated code.
 ## Dependencies
-* FFmpeg
-* [ffmpeg-nomalize](https://github.com/slhck/ffmpeg-normalize)
+- FFmpeg
+- [ffmpeg-nomalize](https://github.com/slhck/ffmpeg-normalize)
 ## Usage guide
 1. Create a new directory to hold all of the files for the disc project.
 2. Create a directory inside that directory named 'in'. Transfer all of your audio files to that directory.
@@ -17,6 +17,18 @@ At least a large part of this script was... technically written by AI? Initially
 5. Bob's your uncle, Jack's your auntie, use the .cue file in an emulator and have fun.
 ## Specifications
 Currently, what this script will do is it will check if the out folder already exists and has .wav files in it. If it doesn't it will check if the in folder exists and has files in it. If it does, it will normalise those files with EBU R 128 normalisation at a loudness target of -18 LUFS and a loudness range of 12, and turn them into CD quality WAV files. It will then use FFmpeg concatenate to turn them into a single WAV file with two second pregaps, in alphabetical filename order. Lastly, it will use the lengths of those converted WAV files to generate a cue file for the final WAV file.
+## Roadmap
+- [x] Compile script as an executable.
+- [x] Make script generate silence.
+- [ ] Automatically delete silence file (may become optional?).
+- [ ] Make Windows executable (including making the script platform agnostic).
+- [ ] Check for correct input files.
+- [ ] Allow for user input.
+    - [ ] Allow user to specify in folder and project folder.
+    - [ ] Allow user to specify wether or not audio should be normalised.
+    - [ ] Allow user to change normalisation settings.
+    - [ ] Allow user to specify the mix name and the WAV file name.
+- [ ] Remove the requrement for ffmpeg-normalize.
 ## License
 Copyright 2026 BrintonTua
 
